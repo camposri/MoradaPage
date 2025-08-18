@@ -1,8 +1,8 @@
 {
-  "buildDate": "2025-08-18T22:42:51.339Z",
+  "buildDate": "2025-08-18T22:51:58.947Z",
   "version": "1.0.0",
   "environment": "production",
   "platform": "vercel",
-  "apiUrl": "https://sua-app.vercel.app/api",
-  "frontendUrl": "https://sua-app.vercel.app"
+  "apiUrl": "https://YOUR_VERCEL_APP_URL/api",
+  "frontendUrl": "https://YOUR_VERCEL_APP_URL"
 }

@@ -5,7 +5,8 @@
   "scripts": {
     "build": "node build.js",
     "build:vercel": "node build-vercel.js",
-    "vercel-build": "npm run build:vercel"
+    "vercel-build": "npm run build:vercel",
+    "configure-url": "node configure-vercel-url.js"
   },
   "keywords": [
     "real-estate",
