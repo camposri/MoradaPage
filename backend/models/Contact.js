@@ -1,4 +1,7 @@
-const supabase = require('../config/supabase');
+// const supabase = require('../config/supabase');
+// Mock data para desenvolvimento local
+const mockContacts = [];
+let nextContactId = 1;
 
 class Contact {
   constructor() {
@@ -8,18 +11,17 @@ class Contact {
   // Criar novo contato
   async create(contactData) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .insert([{
-          ...contactData,
-          status: 'new',
-          created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const newContact = {
+        id: nextContactId++,
+        ...contactData,
+        status: 'new',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      
+      mockContacts.push(newContact);
+      return newContact;
     } catch (error) {
       throw error;
     }
@@ -28,45 +30,36 @@ class Contact {
   // Buscar todos os contatos (para admin)
   async findAll(filters = {}) {
     try {
-      let query = supabase
-        .from(this.tableName)
-        .select('*');
-
+      // Mock implementation para desenvolvimento local
+      let filteredContacts = [...mockContacts];
+      
       // Filtrar por status
       if (filters.status) {
-        query = query.eq('status', filters.status);
+        filteredContacts = filteredContacts.filter(c => c.status === filters.status);
       }
 
       // Filtrar por data
       if (filters.startDate) {
-        query = query.gte('created_at', filters.startDate);
+        filteredContacts = filteredContacts.filter(c => c.created_at >= filters.startDate);
       }
 
       if (filters.endDate) {
-        query = query.lte('created_at', filters.endDate);
+        filteredContacts = filteredContacts.filter(c => c.created_at <= filters.endDate);
       }
 
       // Paginação
       const page = filters.page || 1;
       const limit = filters.limit || 20;
       const offset = (page - 1) * limit;
-
-      query = query.range(offset, offset + limit - 1);
-
-      // Ordenação
-      query = query.order('created_at', { ascending: false });
-
-      const { data, error, count } = await query;
-
-      if (error) throw error;
+      const paginatedContacts = filteredContacts.slice(offset, offset + limit);
 
       return {
-        contacts: data,
+        contacts: paginatedContacts,
         pagination: {
           page,
           limit,
-          total: count,
-          totalPages: Math.ceil(count / limit)
+          total: filteredContacts.length,
+          totalPages: Math.ceil(filteredContacts.length / limit)
         }
       };
     } catch (error) {
@@ -77,14 +70,12 @@ class Contact {
   // Buscar contato por ID
   async findById(id) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .select('*')
-        .eq('id', id)
-        .single();
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const contact = mockContacts.find(c => c.id == id);
+      if (!contact) {
+        throw new Error('Contato não encontrado');
+      }
+      return contact;
     } catch (error) {
       throw error;
     }
@@ -93,24 +84,20 @@ class Contact {
   // Atualizar status do contato
   async updateStatus(id, status, notes = null) {
     try {
-      const updateData = {
-        status,
-        updated_at: new Date().toISOString()
-      };
-
-      if (notes) {
-        updateData.admin_notes = notes;
+      // Mock implementation para desenvolvimento local
+      const contactIndex = mockContacts.findIndex(c => c.id == id);
+      if (contactIndex === -1) {
+        throw new Error('Contato não encontrado');
       }
-
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .update(updateData)
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (error) throw error;
-      return data;
+      
+      mockContacts[contactIndex].status = status;
+      mockContacts[contactIndex].updated_at = new Date().toISOString();
+      
+      if (notes) {
+        mockContacts[contactIndex].admin_notes = notes;
+      }
+      
+      return mockContacts[contactIndex];
     } catch (error) {
       throw error;
     }
@@ -119,19 +106,17 @@ class Contact {
   // Marcar como lido
   async markAsRead(id) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .update({
-          status: 'read',
-          read_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const contactIndex = mockContacts.findIndex(c => c.id == id);
+      if (contactIndex === -1) {
+        throw new Error('Contato não encontrado');
+      }
+      
+      mockContacts[contactIndex].status = 'read';
+      mockContacts[contactIndex].read_at = new Date().toISOString();
+      mockContacts[contactIndex].updated_at = new Date().toISOString();
+      
+      return mockContacts[contactIndex];
     } catch (error) {
       throw error;
     }
@@ -140,33 +125,18 @@ class Contact {
   // Obter estatísticas de contatos
   async getStats() {
     try {
-      const { count: totalContacts } = await supabase
-        .from(this.tableName)
-        .select('*', { count: 'exact', head: true });
-
-      const { count: newContacts } = await supabase
-        .from(this.tableName)
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'new');
-
-      const { count: readContacts } = await supabase
-        .from(this.tableName)
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'read');
-
-      const { count: respondedContacts } = await supabase
-        .from(this.tableName)
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'responded');
+      // Mock implementation para desenvolvimento local
+      const totalContacts = mockContacts.length;
+      const newContacts = mockContacts.filter(c => c.status === 'new').length;
+      const readContacts = mockContacts.filter(c => c.status === 'read').length;
+      const respondedContacts = mockContacts.filter(c => c.status === 'responded').length;
 
       // Contatos dos últimos 30 dias
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-      const { count: recentContacts } = await supabase
-        .from(this.tableName)
-        .select('*', { count: 'exact', head: true })
-        .gte('created_at', thirtyDaysAgo.toISOString());
+      const recentContacts = mockContacts.filter(c => 
+        new Date(c.created_at) >= thirtyDaysAgo
+      ).length;
 
       return {
         totalContacts,
@@ -183,15 +153,14 @@ class Contact {
   // Deletar contato
   async delete(id) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .delete()
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const contactIndex = mockContacts.findIndex(c => c.id == id);
+      if (contactIndex === -1) {
+        throw new Error('Contato não encontrado');
+      }
+      
+      const deletedContact = mockContacts.splice(contactIndex, 1)[0];
+      return deletedContact;
     } catch (error) {
       throw error;
     }

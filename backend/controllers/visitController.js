@@ -41,7 +41,7 @@ const scheduleVisit = catchAsync(async (req, res) => {
 
   // Enviar email de notificação para o admin
   try {
-    await emailService.sendVisitNotification(visit);
+    await emailService.sendNewVisitNotification(visit);
   } catch (emailError) {
     console.error('Erro ao enviar email de notificação:', emailError);
   }

@@ -1,0 +1,31 @@
+{
+  "name": "morada-premium",
+  "version": "1.0.0",
+  "description": "Sistema completo de imobiliária com frontend e backend",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-backend": "cd backend && npm install",
+    "build": "node build.js",
+    "deploy": "npm run install-backend && npm run build",
+    "serve-frontend": "python -m http.server 8000",
+    "serve-all": "concurrently \"npm run serve-frontend\" \"npm run dev\""
+  },
+  "keywords": [
+    "real-estate",
+    "imobiliaria",
+    "nodejs",
+    "express",
+    "supabase"
+  ],
+  "author": "Valmike Junior",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

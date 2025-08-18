@@ -20,7 +20,7 @@ const createContact = catchAsync(async (req, res) => {
 
   // Enviar email de notificação para o admin
   try {
-    await emailService.sendContactNotification(contact);
+    await emailService.sendNewContactNotification(contact);
   } catch (emailError) {
     console.error('Erro ao enviar email de notificação:', emailError);
     // Não falha a requisição se o email não for enviado

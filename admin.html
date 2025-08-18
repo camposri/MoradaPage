@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Morada Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Login Section -->
+    <div id="login-section" class="min-h-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Painel Administrativo</h1>
+                <p class="text-gray-600">Morada Premium</p>
+            </div>
+            
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Usuário</label>
+                    <input type="text" id="username" name="username" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+                    <input type="password" id="password" name="password" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <button type="submit" id="login-btn"
+                        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span id="login-text">Entrar</span>
+                    <i id="login-loading" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                </button>
+                
+                <div id="login-message" class="hidden"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center">
+                        <h1 class="text-xl font-semibold text-gray-900">Painel Administrativo</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">Bem-vindo, Admin</span>
+                        <button id="logout-btn" class="text-red-600 hover:text-red-800">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-8">
+                    <button class="tab-btn active py-4 px-1 border-b-2 border-blue-500 text-blue-600 font-medium text-sm" data-tab="properties">
+                        <i class="fas fa-home mr-2"></i>Imóveis
+                    </button>
+                    <button class="tab-btn py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm" data-tab="contacts">
+                        <i class="fas fa-envelope mr-2"></i>Contatos
+                    </button>
+                    <button class="tab-btn py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm" data-tab="visits">
+                        <i class="fas fa-calendar mr-2"></i>Visitas
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Properties Tab -->
+            <div id="properties-tab" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Gerenciar Imóveis</h2>
+                    <button id="add-property-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                        <i class="fas fa-plus mr-2"></i>Adicionar Imóvel
+                    </button>
+                </div>
+
+                <!-- Property Form -->
+                <div id="property-form" class="hidden bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Cadastrar Novo Imóvel</h3>
+                    <form id="property-form-element" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Título</label>
+                            <input type="text" name="title" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                            <select name="type" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">\n                                <option value="">Selecione o tipo</option>\n                                <option value="casa">Casa</option>\n                                <option value="apartamento">Apartamento</option>\n                                <option value="cobertura">Cobertura</option>\n                                <option value="terreno">Terreno</option>\n                                <option value="comercial">Comercial</option>\n                                <option value="loteamento">Loteamento</option>\n                                <option value="propriedade_rural">Propriedade Rural</option>\n                                <option value="sitio_fazenda">Sítio/Fazenda</option>\n                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Preço (R$)</label>
+                            <input type="number" name="price" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Área (m²)</label>
+                            <input type="number" name="area" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quartos</label>
+                            <input type="number" name="bedrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Banheiros</label>
+                            <input type="number" name="bathrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
+                            <input type="text" name="address" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+                            <textarea name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        
+                        <!-- Imagem Principal em Destaque -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>Imagem Principal (Destaque)
+                            </label>
+                            <div class="space-y-3">
+                                <div>
+                                    <input type="file" id="main-image-upload" accept="image/*" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <p class="text-xs text-gray-500 mt-1">Selecione a imagem que ficará em destaque (JPG, PNG, WebP)</p>
+                                </div>
+                                
+                                <!-- Preview da imagem principal -->
+                                <div id="main-image-preview" class="hidden">
+                                    <div class="relative inline-block">
+                                        <img id="main-image-preview-img" src="" alt="Imagem Principal" 
+                                             class="w-32 h-24 object-cover rounded-lg border-2 border-yellow-400 cursor-pointer hover:opacity-80 transition-opacity"
+                                             onclick="openImageModal(this.src)">
+                                        <div class="absolute top-1 right-1 bg-yellow-500 text-white text-xs px-1 rounded">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <button type="button" onclick="removeMainImage()" 
+                                                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                                            ×
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- URL manual para imagem principal -->
+                                <div>
+                                    <label class="block text-sm text-gray-600 mb-2">Ou URL da Imagem Principal:</label>
+                                    <input type="url" name="main_image" placeholder="https://exemplo.com/imagem-principal.jpg" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Imagens Adicionais -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-images mr-1"></i>Imagens Adicionais
+                            </label>
+                            <div class="space-y-4">
+                                <!-- Upload de arquivos locais -->
+                                <div>
+                                    <input type="file" id="additional-images-upload" multiple accept="image/*" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <p class="text-xs text-gray-500 mt-1">Selecione múltiplas imagens adicionais (JPG, PNG, WebP)</p>
+                                </div>
+                                
+                                <!-- Preview das imagens adicionais -->
+                                <div id="additional-images-preview" class="hidden">
+                                    <label class="block text-sm text-gray-600 mb-2">Imagens Adicionais:</label>
+                                    <div id="additional-preview-container" class="grid grid-cols-3 md:grid-cols-6 gap-2"></div>
+                                </div>
+                                
+                                <!-- URLs manuais (alternativa) -->
+                                <div>
+                                    <label class="block text-sm text-gray-600 mb-2">Ou URLs das Imagens Adicionais (uma por linha):</label>
+                                    <textarea name="images" rows="3" placeholder="https://exemplo.com/imagem1.jpg&#10;https://exemplo.com/imagem2.jpg" 
+                                              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="md:col-span-2 flex space-x-4">
+                            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+                                <i class="fas fa-save mr-2"></i>Salvar Imóvel
+                            </button>
+                            <button type="button" id="cancel-property-btn" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                                <i class="fas fa-times mr-2"></i>Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Search Filters -->
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-4">Filtros de Busca</h3>
+                        <form id="admin-search-form" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                                <select name="type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Todos os tipos</option>
+                                    <option value="casa">Casa</option>
+                                    <option value="apartamento">Apartamento</option>
+                                    <option value="cobertura">Cobertura</option>
+                                    <option value="terreno">Terreno</option>
+                                    <option value="comercial">Comercial</option>
+                                    <option value="loteamento">Loteamento</option>
+                                    <option value="propriedade_rural">Propriedade Rural</option>
+                                    <option value="sitio_fazenda">Sítio/Fazenda</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Cidade</label>
+                                <input type="text" name="city" placeholder="Digite a cidade" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Preço Mín. (R$)</label>
+                                <input type="number" name="minPrice" placeholder="0" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Preço Máx. (R$)</label>
+                                <input type="number" name="maxPrice" placeholder="Sem limite" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Quartos</label>
+                                <select name="bedrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Qualquer</option>
+                                    <option value="1">1+</option>
+                                    <option value="2">2+</option>
+                                    <option value="3">3+</option>
+                                    <option value="4">4+</option>
+                                    <option value="5">5+</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Banheiros</label>
+                                <select name="bathrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Qualquer</option>
+                                    <option value="1">1+</option>
+                                    <option value="2">2+</option>
+                                    <option value="3">3+</option>
+                                    <option value="4">4+</option>
+                                </select>
+                            </div>
+                            
+                            <div class="md:col-span-3 lg:col-span-6 flex items-end space-x-4">
+                                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">
+                                    <i class="fas fa-search mr-2"></i>Buscar
+                                </button>
+                                <button type="button" id="clear-filters-btn" class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600">
+                                    <i class="fas fa-times mr-2"></i>Limpar Filtros
+                                </button>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="featured-filter" name="featured" class="mr-2">
+                                    <label for="featured-filter" class="text-sm text-gray-700">Apenas em destaque</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Properties List -->
+                <div id="properties-list" class="bg-white rounded-lg shadow">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold">Lista de Imóveis</h3>
+                            <div id="properties-count" class="text-sm text-gray-600"></div>
+                        </div>
+                        <div id="properties-loading" class="text-center py-8">
+                            <i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i>
+                            <p class="text-gray-600 mt-2">Carregando imóveis...</p>
+                        </div>
+                        <div id="properties-content" class="hidden">
+                            <!-- Properties will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contacts Tab -->
+            <div id="contacts-tab" class="tab-content hidden">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Contatos Recebidos</h2>
+                <div id="contacts-list" class="bg-white rounded-lg shadow p-6">
+                    <div id="contacts-loading" class="text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i>
+                        <p class="text-gray-600 mt-2">Carregando contatos...</p>
+                    </div>
+                    <div id="contacts-content" class="hidden">
+                        <!-- Contacts will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visits Tab -->
+            <div id="visits-tab" class="tab-content hidden">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Visitas Agendadas</h2>
+                <div id="visits-list" class="bg-white rounded-lg shadow p-6">
+                    <div id="visits-loading" class="text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i>
+                        <p class="text-gray-600 mt-2">Carregando visitas...</p>
+                    </div>
+                    <div id="visits-content" class="hidden">
+                        <!-- Visits will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple authentication (in production, use proper JWT tokens)
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'morada2024'
+        };
+
+        // DOM Elements
+        const loginSection = document.getElementById('login-section');
+        const adminPanel = document.getElementById('admin-panel');
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
+        const loginText = document.getElementById('login-text');
+        const loginLoading = document.getElementById('login-loading');
+        const loginMessage = document.getElementById('login-message');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Property form elements
+        const addPropertyBtn = document.getElementById('add-property-btn');
+        const propertyForm = document.getElementById('property-form');
+        const propertyFormElement = document.getElementById('property-form-element');
+        const cancelPropertyBtn = document.getElementById('cancel-property-btn');
+
+        // Check if already logged in
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            showAdminPanel();
+        }
+
+        // Login form handler
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Show loading
+            loginBtn.disabled = true;
+            loginText.textContent = 'Entrando...';
+            loginLoading.classList.remove('hidden');
+            loginMessage.classList.add('hidden');
+            
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                showAdminPanel();
+            } else {
+                showMessage('Credenciais inválidas!', 'error');
+            }
+            
+            // Reset button
+            loginBtn.disabled = false;
+            loginText.textContent = 'Entrar';
+            loginLoading.classList.add('hidden');
+        });
+
+        // Logout handler
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('adminLoggedIn');
+            showLoginSection();
+        });
+
+        // Tab switching
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                switchTab(tabName);
+            });
+        });
+
+        // Property form handlers
+        addPropertyBtn.addEventListener('click', () => {
+            propertyForm.classList.remove('hidden');
+        });
+
+        // Legacy image upload handler (for backward compatibility)
+        const imageUpload = document.getElementById('image-upload');
+        const imagePreview = document.getElementById('image-preview');
+        const previewContainer = document.getElementById('preview-container');
+        let selectedImages = [];
+
+        if (imageUpload) {
+            imageUpload.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            selectedImages = [];
+            previewContainer.innerHTML = '';
+            
+            if (files.length > 0) {
+                imagePreview.classList.remove('hidden');
+                
+                files.forEach((file, index) => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            selectedImages.push({
+                                file: file,
+                                dataUrl: e.target.result,
+                                name: file.name
+                            });
+                            
+                            const previewDiv = document.createElement('div');
+                            previewDiv.className = 'relative group';
+                            previewDiv.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview" class="w-full h-20 object-cover rounded border">
+                                <button type="button" onclick="removeImage(${index})" 
+                                        class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    ×
+                                </button>
+                                <p class="text-xs text-gray-600 mt-1 truncate">${file.name}</p>
+                            `;
+                            previewContainer.appendChild(previewDiv);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            } else {
+                imagePreview.classList.add('hidden');
+            }
+            });
+        }
+
+        cancelPropertyBtn.addEventListener('click', () => {
+            resetPropertyForm();
+        });
+
+        propertyFormElement.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await saveProperty(new FormData(e.target));
+        });
+
+        // Functions
+        function showLoginSection() {
+            loginSection.classList.remove('hidden');
+            adminPanel.classList.add('hidden');
+        }
+
+        function showAdminPanel() {
+            loginSection.classList.add('hidden');
+            adminPanel.classList.remove('hidden');
+            loadProperties();
+        }
+
+        function showMessage(message, type) {
+            loginMessage.className = `mt-4 p-3 rounded-md ${type === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
+            loginMessage.textContent = message;
+            loginMessage.classList.remove('hidden');
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            tabBtns.forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('active', 'border-blue-500', 'text-blue-600');
+                    btn.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    btn.classList.remove('active', 'border-blue-500', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+
+            // Update tab content
+            tabContents.forEach(content => {
+                if (content.id === `${tabName}-tab`) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+
+            // Load content based on tab
+            switch(tabName) {
+                case 'properties':
+                    loadProperties();
+                    break;
+                case 'contacts':
+                    loadContacts();
+                    break;
+                case 'visits':
+                    loadVisits();
+                    break;
+            }
+        }
+
+        async function saveProperty(formData) {
+            try {
+                // Process images (uploaded files + manual URLs)
+                const imageUrls = await processImages();
+                
+                const propertyData = {
+                    title: formData.get('title'),
+                    property_type: formData.get('type'),
+                    price: parseFloat(formData.get('price')),
+                    area: parseFloat(formData.get('area')),
+                    bedrooms: parseInt(formData.get('bedrooms')) || 0,
+                    bathrooms: parseInt(formData.get('bathrooms')) || 0,
+                    location: formData.get('address'),
+                    description: formData.get('description'),
+                    images: imageUrls,
+                    status: 'available'
+                };
+
+                // Verificar se está editando ou criando
+                const editingId = propertyFormElement.dataset.editingId;
+                const isEditing = editingId && editingId !== '';
+                
+                const url = isEditing 
+                    ? `http://localhost:3000/api/properties/${editingId}`
+                : 'http://localhost:3000/api/properties';
+                
+                const method = isEditing ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(propertyData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    const message = isEditing ? 'Imóvel atualizado com sucesso!' : 'Imóvel cadastrado com sucesso!';
+                    alert(message);
+                    
+                    // Reset form
+                    resetPropertyForm();
+                    
+                    loadProperties();
+                } else {
+                    const errorMessage = isEditing ? 'Erro ao atualizar imóvel: ' : 'Erro ao cadastrar imóvel: ';
+                    alert(errorMessage + result.message);
+                }
+            } catch (error) {
+                console.error('Erro ao cadastrar imóvel:', error);
+                const errorMessage = propertyFormElement.dataset.editingId ? 'Erro ao atualizar imóvel: ' : 'Erro ao cadastrar imóvel: ';
+                alert(errorMessage + error.message);
+            }
+        }
+        
+        function resetPropertyForm() {
+            propertyForm.classList.add('hidden');
+            propertyFormElement.reset();
+            
+            // Reset form state
+            delete propertyFormElement.dataset.editingId;
+            
+            // Reset form title and button
+            document.querySelector('#property-form h3').textContent = 'Cadastrar Novo Imóvel';
+            const saveButton = document.querySelector('#property-form button[type="submit"]');
+            saveButton.innerHTML = '<i class="fas fa-save mr-2"></i>Salvar Imóvel';
+            
+            // Reset image uploads
+            selectedImages = [];
+            selectedMainImage = null;
+            selectedAdditionalImages = [];
+            
+            // Reset previews
+            const previewContainer = document.getElementById('preview-container');
+            if (previewContainer) {
+                previewContainer.innerHTML = '';
+            }
+            
+            const imagePreview = document.getElementById('image-preview');
+            if (imagePreview) {
+                imagePreview.classList.add('hidden');
+            }
+            
+            const imageUpload = document.getElementById('image-upload');
+            if (imageUpload) {
+                imageUpload.value = '';
+            }
+            
+            // Reset main image preview
+            const mainImagePreview = document.getElementById('main-image-preview');
+            if (mainImagePreview) {
+                mainImagePreview.innerHTML = '';
+                mainImagePreview.classList.add('hidden');
+            }
+            
+            // Reset additional images preview
+            const additionalImagesPreview = document.getElementById('additional-images-preview');
+            if (additionalImagesPreview) {
+                additionalImagesPreview.innerHTML = '';
+                additionalImagesPreview.classList.add('hidden');
+            }
+        }
+
+        async function loadProperties(filters = {}) {
+            const loading = document.getElementById('properties-loading');
+            const content = document.getElementById('properties-content');
+            const countElement = document.getElementById('properties-count');
+            
+            loading.classList.remove('hidden');
+            content.classList.add('hidden');
+
+            try {
+                // Construir URL com parâmetros de filtro
+                const params = new URLSearchParams();
+                Object.keys(filters).forEach(key => {
+                    if (filters[key] !== '' && filters[key] !== null && filters[key] !== undefined) {
+                        params.append(key, filters[key]);
+                    }
+                });
+                
+                const url = `http://localhost:3000/api/properties/search${params.toString() ? '?' + params.toString() : ''}`;
+                const response = await fetch(url);
+                const result = await response.json();
+
+                if (result.success) {
+                    const properties = result.data.properties || result.data;
+                    displayProperties(properties);
+                    
+                    // Atualizar contador
+                    if (countElement) {
+                        countElement.textContent = `${properties.length} imóvel(is) encontrado(s)`;
+                    }
+                } else {
+                    content.innerHTML = '<p class="text-gray-600">Erro ao carregar imóveis: ' + (result.message || 'Erro desconhecido') + '</p>';
+                    if (countElement) {
+                        countElement.textContent = '0 imóveis encontrados';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar propriedades:', error);
+                content.innerHTML = '<p class="text-gray-600">Erro ao conectar com o servidor. Verifique se o backend está rodando.</p>';
+                if (countElement) {
+                    countElement.textContent = 'Erro ao carregar';
+                }
+            }
+
+            loading.classList.add('hidden');
+            content.classList.remove('hidden');
+        }
+
+        function displayProperties(properties) {
+            const content = document.getElementById('properties-content');
+            
+            if (properties.length === 0) {
+                content.innerHTML = '<p class="text-gray-600">Nenhum imóvel cadastrado.</p>';
+                return;
+            }
+
+            const html = properties.map(property => `
+                <div class="border-b border-gray-200 py-4 last:border-b-0">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-lg">${property.title}</h3>
+                            <p class="text-gray-600">${property.location}</p>
+                            <p class="text-green-600 font-semibold">R$ ${property.price?.toLocaleString('pt-BR')}</p>
+                            <div class="flex space-x-4 text-sm text-gray-500 mt-2">
+                                <span><i class="fas fa-home mr-1"></i>${property.property_type}</span>
+                                <span><i class="fas fa-expand-arrows-alt mr-1"></i>${property.area}m²</span>
+                                ${property.bedrooms ? `<span><i class="fas fa-bed mr-1"></i>${property.bedrooms} quartos</span>` : ''}
+                                ${property.bathrooms ? `<span><i class="fas fa-bath mr-1"></i>${property.bathrooms} banheiros</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800" onclick="editProperty('${property.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800" onclick="deleteProperty('${property.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            content.innerHTML = html;
+        }
+
+        // Visit management functions
+        async function confirmVisit(visitId) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/visits/${visitId}/confirm`, {
+                    method: 'PUT'
+                });
+                
+                if (response.ok) {
+                    loadVisits(); // Reload visits
+                    alert('Visita confirmada com sucesso!');
+                } else {
+                    alert('Erro ao confirmar visita');
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor');
+            }
+        }
+
+        async function cancelVisit(visitId) {
+            if (!confirm('Tem certeza que deseja cancelar esta visita?')) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/visits/${visitId}/cancel`, {
+                    method: 'PUT'
+                });
+                
+                if (response.ok) {
+                    loadVisits(); // Reload visits
+                    alert('Visita cancelada com sucesso!');
+                } else {
+                    alert('Erro ao cancelar visita');
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor');
+            }
+        }
+
+        function rescheduleVisit(visitId) {
+            const newDate = prompt('Nova data e hora (YYYY-MM-DD HH:MM):');
+            if (!newDate) return;
+            
+            fetch(`http://localhost:3000/api/visits/${visitId}/reschedule`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ visit_date: newDate })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Visita reagendada com sucesso!');
+                    loadVisits();
+                } else {
+                    alert('Erro ao reagendar visita');
+                }
+            })
+            .catch(() => {
+                alert('Erro ao conectar com o servidor');
+            });
+        }
+
+        async function deleteVisit(visitId) {
+            if (!confirm('Tem certeza que deseja excluir esta visita?')) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/visits/${visitId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    loadVisits(); // Reload visits
+                    alert('Visita excluída com sucesso!');
+                } else {
+                    alert('Erro ao excluir visita');
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor');
+            }
+        }
+
+        async function loadContacts() {
+            const loading = document.getElementById('contacts-loading');
+            const content = document.getElementById('contacts-content');
+            
+            loading.classList.remove('hidden');
+            content.classList.add('hidden');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/contact');
+                const result = await response.json();
+
+                if (result.success) {
+                    displayContacts(result.data);
+                } else {
+                    content.innerHTML = '<p class="text-gray-600">Erro ao carregar contatos.</p>';
+                }
+            } catch (error) {
+                content.innerHTML = '<p class="text-gray-600">Erro ao conectar com o servidor.</p>';
+            }
+
+            loading.classList.add('hidden');
+            content.classList.remove('hidden');
+        }
+
+        function displayContacts(contacts) {
+            const content = document.getElementById('contacts-content');
+            
+            if (contacts.length === 0) {
+                content.innerHTML = '<p class="text-gray-600">Nenhum contato recebido.</p>';
+                return;
+            }
+
+            const html = contacts.map(contact => `
+                <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <h3 class="font-semibold text-lg text-gray-900">${contact.name}</h3>
+                                <span class="ml-3 px-2 py-1 text-xs rounded-full ${contact.status === 'read' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                                    ${contact.status === 'read' ? 'Lido' : 'Não lido'}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                                <p class="text-gray-600 flex items-center">
+                                    <i class="fas fa-envelope mr-2 text-blue-500"></i>
+                                    <a href="mailto:${contact.email}" class="hover:text-blue-600">${contact.email}</a>
+                                </p>
+                                ${contact.phone ? `
+                                <p class="text-gray-600 flex items-center">
+                                    <i class="fas fa-phone mr-2 text-green-500"></i>
+                                    <a href="tel:${contact.phone}" class="hover:text-green-600">${contact.phone}</a>
+                                </p>
+                                ` : ''}
+                            </div>
+                            ${contact.subject ? `
+                            <p class="text-sm text-gray-700 mb-2">
+                                <strong>Assunto:</strong> ${contact.subject}
+                            </p>
+                            ` : ''}
+                            <div class="bg-gray-50 p-3 rounded-md mb-3">
+                                <p class="text-gray-800">${contact.message}</p>
+                            </div>
+                            <p class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-clock mr-1"></i>
+                                ${new Date(contact.created_at).toLocaleString('pt-BR')}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 pt-3 border-t border-gray-100">
+                        <button onclick="markContactAsRead('${contact.id}')" 
+                                class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-check mr-1"></i>Marcar como Lido
+                        </button>
+                        <button onclick="replyToContact('${contact.id}', '${contact.name}', '${contact.email}')" 
+                                class="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+                            <i class="fas fa-reply mr-1"></i>Responder
+                        </button>
+                        <button onclick="deleteContact('${contact.id}')" 
+                                class="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors">
+                            <i class="fas fa-trash mr-1"></i>Excluir
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            content.innerHTML = html;
+        }
+
+        // Contact management functions
+        async function markContactAsRead(contactId) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/contact/${contactId}/read`, {
+                    method: 'PUT'
+                });
+                
+                if (response.ok) {
+                    loadContacts(); // Reload contacts
+                } else {
+                    alert('Erro ao marcar contato como lido');
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor');
+            }
+        }
+
+        function replyToContact(contactId, name, email) {
+            const subject = prompt(`Assunto da resposta para ${name}:`, `Re: Contato - Morada Premium`);
+            if (!subject) return;
+            
+            const message = prompt(`Mensagem para ${name}:`);
+            if (!message) return;
+            
+            // Send reply
+            fetch(`http://localhost:3000/api/contact/${contactId}/reply`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ subject, message })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Resposta enviada com sucesso!');
+                    loadContacts();
+                } else {
+                    alert('Erro ao enviar resposta');
+                }
+            })
+            .catch(() => {
+                alert('Erro ao conectar com o servidor');
+            });
+        }
+
+        async function deleteContact(contactId) {
+            if (!confirm('Tem certeza que deseja excluir este contato?')) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/contact/${contactId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    loadContacts(); // Reload contacts
+                } else {
+                    alert('Erro ao excluir contato');
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor');
+            }
+        }
+
+        async function loadVisits() {
+            const loading = document.getElementById('visits-loading');
+            const content = document.getElementById('visits-content');
+            
+            loading.classList.remove('hidden');
+            content.classList.add('hidden');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/visits');
+                const result = await response.json();
+
+                if (result.success) {
+                    displayVisits(result.data);
+                } else {
+                    content.innerHTML = '<p class="text-gray-600">Erro ao carregar visitas.</p>';
+                }
+            } catch (error) {
+                content.innerHTML = '<p class="text-gray-600">Erro ao conectar com o servidor.</p>';
+            }
+
+            loading.classList.add('hidden');
+            content.classList.remove('hidden');
+        }
+
+        function displayVisits(visits) {
+            const content = document.getElementById('visits-content');
+            
+            if (visits.length === 0) {
+                content.innerHTML = '<p class="text-gray-600">Nenhuma visita agendada.</p>';
+                return;
+            }
+
+            const html = visits.map(visit => `
+                <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <h3 class="font-semibold text-lg text-gray-900">${visit.visitor_name}</h3>
+                                <span class="ml-3 px-2 py-1 text-xs rounded-full ${
+                                    visit.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                                    visit.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                    'bg-yellow-100 text-yellow-800'
+                                }">
+                                    ${
+                                        visit.status === 'confirmed' ? 'Confirmada' :
+                                        visit.status === 'cancelled' ? 'Cancelada' :
+                                        'Pendente'
+                                    }
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                                <p class="text-gray-600 flex items-center">
+                                    <i class="fas fa-envelope mr-2 text-blue-500"></i>
+                                    <a href="mailto:${visit.visitor_email}" class="hover:text-blue-600">${visit.visitor_email}</a>
+                                </p>
+                                ${visit.visitor_phone ? `
+                                <p class="text-gray-600 flex items-center">
+                                    <i class="fas fa-phone mr-2 text-green-500"></i>
+                                    <a href="tel:${visit.visitor_phone}" class="hover:text-green-600">${visit.visitor_phone}</a>
+                                </p>
+                                ` : ''}
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-md mb-3">
+                                <p class="text-blue-800 font-medium flex items-center">
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    Data da Visita: ${new Date(visit.visit_date).toLocaleString('pt-BR')}
+                                </p>
+                                ${visit.property_id ? `
+                                <p class="text-blue-700 mt-1 flex items-center">
+                                    <i class="fas fa-home mr-2"></i>
+                                    Imóvel ID: ${visit.property_id}
+                                </p>
+                                ` : ''}
+                            </div>
+                            ${visit.message ? `
+                            <div class="bg-gray-50 p-3 rounded-md mb-3">
+                                <p class="text-gray-800">${visit.message}</p>
+                            </div>
+                            ` : ''}
+                            <p class="text-sm text-gray-500 flex items-center">
+                                <i class="fas fa-clock mr-1"></i>
+                                Agendada em: ${new Date(visit.created_at).toLocaleString('pt-BR')}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 pt-3 border-t border-gray-100">
+                        ${visit.status === 'pending' ? `
+                        <button onclick="confirmVisit('${visit.id}')" 
+                                class="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+                            <i class="fas fa-check mr-1"></i>Confirmar
+                        </button>
+                        <button onclick="cancelVisit('${visit.id}')" 
+                                class="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors">
+                            <i class="fas fa-times mr-1"></i>Cancelar
+                        </button>
+                        ` : ''}
+                        <button onclick="rescheduleVisit('${visit.id}')" 
+                                class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-calendar mr-1"></i>Reagendar
+                        </button>
+                        <button onclick="deleteVisit('${visit.id}')" 
+                                class="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-trash mr-1"></i>Excluir
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            content.innerHTML = html;
+        }
+
+        // Image management variables
+        let selectedMainImage = null;
+        let selectedAdditionalImages = [];
+
+        // Main image management functions
+        function initializeImageHandlers() {
+            const mainImageUpload = document.getElementById('main-image-upload');
+            if (mainImageUpload) {
+                mainImageUpload.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            selectedMainImage = {
+                                file: file,
+                                dataUrl: e.target.result
+                            };
+                            
+                            const preview = document.getElementById('main-image-preview');
+                            const img = document.getElementById('main-image-preview-img');
+                            
+                            if (preview && img) {
+                                img.src = e.target.result;
+                                preview.classList.remove('hidden');
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Add listener for main image URL input
+            const mainImageUrlInput = document.querySelector('input[name="main_image"]');
+            if (mainImageUrlInput) {
+                mainImageUrlInput.addEventListener('input', function() {
+                    updateMainImagePreview();
+                });
+            }
+
+            const additionalImagesUpload = document.getElementById('additional-images-upload');
+            if (additionalImagesUpload) {
+                additionalImagesUpload.addEventListener('change', function(e) {
+                    const files = Array.from(e.target.files);
+                    
+                    files.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            selectedAdditionalImages.push({
+                                file: file,
+                                dataUrl: e.target.result
+                            });
+                            
+                            updateAdditionalImagesPreview();
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                });
+            }
+        }
+
+        function removeMainImage() {
+            selectedMainImage = null;
+            const preview = document.getElementById('main-image-preview');
+            const upload = document.getElementById('main-image-upload');
+            const urlInput = document.querySelector('input[name="main_image"]');
+            
+            if (preview) preview.classList.add('hidden');
+            if (upload) upload.value = '';
+            if (urlInput) urlInput.value = '';
+        }
+
+        function updateAdditionalImagesPreview() {
+            const preview = document.getElementById('additional-images-preview');
+            const container = document.getElementById('additional-preview-container');
+            
+            if (selectedAdditionalImages.length === 0) {
+                preview.classList.add('hidden');
+                return;
+            }
+            
+            container.innerHTML = selectedAdditionalImages.map((imageData, index) => `
+                <div class="relative group">
+                    <img src="${imageData.dataUrl}" alt="Imagem ${index + 1}" 
+                         class="w-16 h-12 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity"
+                         onclick="openImageModal('${imageData.dataUrl}')">
+                    <button type="button" onclick="removeAdditionalImage(${index})" 
+                            class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                        ×
+                    </button>
+                </div>
+            `).join('');
+            
+            preview.classList.remove('hidden');
+        }
+
+        function removeAdditionalImage(index) {
+            selectedAdditionalImages.splice(index, 1);
+            updateAdditionalImagesPreview();
+        }
+
+        // Function to update main image preview from URL
+        function updateMainImagePreview() {
+            const mainImageInput = document.querySelector('input[name="main_image"]');
+            const preview = document.getElementById('main-image-preview');
+            const img = document.getElementById('main-image-preview-img');
+            
+            if (mainImageInput && preview && img) {
+                const imageUrl = mainImageInput.value.trim();
+                if (imageUrl) {
+                    img.src = imageUrl;
+                    preview.classList.remove('hidden');
+                } else {
+                    preview.classList.add('hidden');
+                }
+            }
+        }
+
+        // Image modal functions
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            
+            modalImg.src = imageSrc;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Convert images to base64 for storage
+        async function processImages() {
+            const imageUrls = [];
+            
+            // Process main image
+            if (selectedMainImage) {
+                imageUrls.push(selectedMainImage.dataUrl);
+            } else {
+                // Check for manual main image URL
+                const mainImageUrl = document.querySelector('input[name="main_image"]').value.trim();
+                if (mainImageUrl) {
+                    imageUrls.push(mainImageUrl);
+                }
+            }
+            
+            // Process additional uploaded files
+            for (const imageData of selectedAdditionalImages) {
+                imageUrls.push(imageData.dataUrl);
+            }
+            
+            // Add manual URLs if any
+            const manualUrls = document.querySelector('textarea[name="images"]').value
+                .split('\n')
+                .filter(url => url.trim())
+                .map(url => url.trim());
+            
+            imageUrls.push(...manualUrls);
+            
+            return imageUrls;
+        }
+
+        // Property management functions
+        async function editProperty(id) {
+            try {
+                // Buscar dados do imóvel
+                const response = await fetch(`http://localhost:3000/api/properties/${id}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const property = result.data;
+                    
+                    // Preencher o formulário com os dados existentes
+                    document.querySelector('input[name="title"]').value = property.title || '';
+                    document.querySelector('select[name="type"]').value = property.property_type || '';
+                    document.querySelector('input[name="price"]').value = property.price || '';
+                    document.querySelector('input[name="area"]').value = property.area || '';
+                    document.querySelector('input[name="bedrooms"]').value = property.bedrooms || '';
+                    document.querySelector('input[name="bathrooms"]').value = property.bathrooms || '';
+                    document.querySelector('input[name="address"]').value = property.location || '';
+                    document.querySelector('textarea[name="description"]').value = property.description || '';
+                    
+                    // Processar imagens existentes
+                    if (property.images && property.images.length > 0) {
+                        // Primeira imagem como principal
+                        const mainImageInput = document.querySelector('input[name="main_image"]');
+                        if (mainImageInput && property.images[0]) {
+                            mainImageInput.value = property.images[0];
+                            updateMainImagePreview();
+                        }
+                        
+                        // Demais imagens como adicionais
+                        if (property.images.length > 1) {
+                            const additionalImagesTextarea = document.querySelector('textarea[name="images"]');
+                            if (additionalImagesTextarea) {
+                                additionalImagesTextarea.value = property.images.slice(1).join('\n');
+                            }
+                        }
+                    }
+                    
+                    // Alterar o título do formulário
+                    document.querySelector('#property-form h3').textContent = 'Editar Imóvel';
+                    
+                    // Alterar o texto do botão de salvar
+                    const saveButton = document.querySelector('#property-form button[type="submit"]');
+                    saveButton.innerHTML = '<i class="fas fa-save mr-2"></i>Atualizar Imóvel';
+                    
+                    // Armazenar o ID do imóvel sendo editado
+                    propertyFormElement.dataset.editingId = id;
+                    
+                    // Mostrar o formulário
+                    propertyForm.classList.remove('hidden');
+                    
+                    // Scroll para o formulário
+                    propertyForm.scrollIntoView({ behavior: 'smooth' });
+                    
+                } else {
+                    alert('Erro ao carregar dados do imóvel: ' + result.message);
+                }
+            } catch (error) {
+                alert('Erro ao carregar imóvel: ' + error.message);
+            }
+        }
+
+        async function deleteProperty(id) {
+            if (confirm('Tem certeza que deseja excluir este imóvel?')) {
+                try {
+                    const response = await fetch(`http://localhost:3000/api/properties/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('Imóvel excluído com sucesso!');
+                        loadProperties();
+                    } else {
+                        alert('Erro ao excluir imóvel: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Erro ao excluir imóvel: ' + error.message);
+                }
+            }
+        }
+        
+        // Initialize image handlers when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeImageHandlers();
+        });
+        
+        // Also try to initialize immediately in case DOM is already loaded
+        // Initialize search functionality
+        function initializeSearchFilters() {
+            const searchForm = document.getElementById('admin-search-form');
+            const clearFiltersBtn = document.getElementById('clear-filters-btn');
+            
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(searchForm);
+                    const filters = {};
+                    
+                    // Coletar todos os filtros
+                    for (let [key, value] of formData.entries()) {
+                        if (value.trim() !== '') {
+                            if (key === 'featured') {
+                                filters[key] = true;
+                            } else {
+                                filters[key] = value.trim();
+                            }
+                        }
+                    }
+                    
+                    // Verificar checkbox de destaque separadamente
+                    const featuredCheckbox = document.getElementById('featured-filter');
+                    if (featuredCheckbox && featuredCheckbox.checked) {
+                        filters.featured = true;
+                    }
+                    
+                    loadProperties(filters);
+                });
+            }
+            
+            if (clearFiltersBtn) {
+                clearFiltersBtn.addEventListener('click', function() {
+                    // Limpar todos os campos do formulário
+                    if (searchForm) {
+                        searchForm.reset();
+                    }
+                    
+                    // Recarregar todas as propriedades
+                    loadProperties();
+                });
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                initializeImageHandlers();
+                initializeSearchFilters();
+            });
+        } else {
+            initializeImageHandlers();
+            initializeSearchFilters();
+        }
+    </script>
+
+    <!-- Modal de Galeria de Imagens -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="relative max-w-4xl max-h-full p-4">
+            <button onclick="closeImageModal()" 
+                    class="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-75 transition-all z-10">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            
+            <img id="modal-image" src="" alt="Imagem em destaque" 
+                 class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
+            
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full">
+                <i class="fas fa-search-plus mr-2"></i>Clique fora da imagem para fechar
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para fechar modal clicando fora da imagem -->
+    <script>
+        document.getElementById('image-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+        
+        // Fechar modal com tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+    </script>
+</body>
+</html>

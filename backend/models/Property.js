@@ -8,18 +8,15 @@ class Property {
   // Buscar propriedades com filtros
   async search(filters = {}) {
     try {
-      let query = supabase
-        .from(this.tableName)
-        .select('*')
-        .eq('status', 'active');
-
+      let query = supabase.from('properties').select('*').eq('status', 'available');
+      
       // Aplicar filtros
       if (filters.type) {
-        query = query.eq('type', filters.type);
+        query = query.eq('property_type', filters.type);
       }
 
       if (filters.city) {
-        query = query.ilike('city', `%${filters.city}%`);
+        query = query.ilike('location', `%${filters.city}%`);
       }
 
       if (filters.minPrice) {
@@ -31,38 +28,40 @@ class Property {
       }
 
       if (filters.bedrooms) {
-        query = query.eq('bedrooms', filters.bedrooms);
+        query = query.gte('bedrooms', filters.bedrooms);
       }
 
       if (filters.bathrooms) {
-        query = query.eq('bathrooms', filters.bathrooms);
+        query = query.gte('bathrooms', filters.bathrooms);
       }
 
       if (filters.area) {
         query = query.gte('area', filters.area);
       }
 
+      // Filtro para imóveis em destaque
+      if (filters.featured === 'true' || filters.featured === true) {
+        query = query.eq('featured', true);
+      }
+
       // Paginação
       const page = filters.page || 1;
       const limit = filters.limit || 10;
       const offset = (page - 1) * limit;
-
+      
       query = query.range(offset, offset + limit - 1);
-
-      // Ordenação
-      query = query.order('created_at', { ascending: false });
-
+      
       const { data, error, count } = await query;
-
+      
       if (error) throw error;
 
       return {
-        properties: data,
+        properties: data || [],
         pagination: {
           page,
           limit,
-          total: count,
-          totalPages: Math.ceil(count / limit)
+          total: count || 0,
+          totalPages: Math.ceil((count || 0) / limit)
         }
       };
     } catch (error) {
@@ -74,14 +73,13 @@ class Property {
   async findById(id) {
     try {
       const { data, error } = await supabase
-        .from(this.tableName)
+        .from('properties')
         .select('*')
         .eq('id', id)
-        .eq('status', 'active')
         .single();
 
-      if (error) throw error;
-      return data;
+      if (error && error.code !== 'PGRST116') throw error;
+      return data || null;
     } catch (error) {
       throw error;
     }
@@ -90,16 +88,11 @@ class Property {
   // Buscar propriedades em destaque
   async getFeatured(limit = 6) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .select('*')
-        .eq('status', 'active')
-        .eq('featured', true)
-        .order('created_at', { ascending: false })
-        .limit(limit);
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const featuredProperties = mockProperties
+        .filter(p => p.featured && p.status === 'available')
+        .slice(0, limit);
+      return featuredProperties;
     } catch (error) {
       throw error;
     }
@@ -108,18 +101,11 @@ class Property {
   // Buscar propriedades similares
   async getSimilar(propertyId, type, city, limit = 4) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .select('*')
-        .eq('status', 'active')
-        .eq('type', type)
-        .eq('city', city)
-        .neq('id', propertyId)
-        .order('created_at', { ascending: false })
-        .limit(limit);
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const similarProperties = mockProperties
+        .filter(p => p.property_type === type && p.id != propertyId && p.status === 'available' && p.location.includes(city))
+        .slice(0, limit);
+      return similarProperties;
     } catch (error) {
       throw error;
     }
@@ -129,12 +115,8 @@ class Property {
   async create(propertyData) {
     try {
       const { data, error } = await supabase
-        .from(this.tableName)
-        .insert([{
-          ...propertyData,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        }])
+        .from('properties')
+        .insert([propertyData])
         .select()
         .single();
 
@@ -149,11 +131,8 @@ class Property {
   async update(id, propertyData) {
     try {
       const { data, error } = await supabase
-        .from(this.tableName)
-        .update({
-          ...propertyData,
-          updated_at: new Date().toISOString()
-        })
+        .from('properties')
+        .update(propertyData)
         .eq('id', id)
         .select()
         .single();
@@ -169,11 +148,8 @@ class Property {
   async delete(id) {
     try {
       const { data, error } = await supabase
-        .from(this.tableName)
-        .update({
-          status: 'deleted',
-          updated_at: new Date().toISOString()
-        })
+        .from('properties')
+        .update({ status: 'sold' })
         .eq('id', id)
         .select()
         .single();
@@ -188,20 +164,23 @@ class Property {
   // Obter estatísticas
   async getStats() {
     try {
-      const { count: totalProperties } = await supabase
-        .from(this.tableName)
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'active');
-
-      const { count: featuredProperties } = await supabase
-        .from(this.tableName)
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'active')
-        .eq('featured', true);
+      // Mock implementation para desenvolvimento local
+      const activeProperties = mockProperties.filter(p => p.status === 'available');
+      const featuredProperties = activeProperties.filter(p => p.featured);
+      
+      const typeStats = activeProperties.reduce((acc, prop) => {
+        acc[prop.property_type] = (acc[prop.property_type] || 0) + 1;
+        return acc;
+      }, {});
 
       return {
-        totalProperties,
-        featuredProperties
+        totalProperties: activeProperties.length,
+        featuredProperties: featuredProperties.length,
+        types: {
+          casa: typeStats.casa || 0,
+          apartamento: typeStats.apartamento || 0,
+          terreno: typeStats.terreno || 0
+        }
       };
     } catch (error) {
       throw error;

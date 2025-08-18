@@ -75,12 +75,12 @@
                 <!-- Navigation Menu -->
                 <nav class="hidden md:flex items-center space-x-6">
                     <a href="#home" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Home</a>
-                    <a href="#casas" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Casas</a>
-                    <a href="#apartamentos" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Apartamentos</a>
-                    <a href="#terrenos" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Terrenos</a>
-                    <a href="#loteamentos" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Loteamentos</a>
-                    <a href="#propriedades-rurais" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Propriedades Rurais</a>
-                    <a href="#sitios-fazendas" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Sítios/Fazendas</a>
+                    <a href="#casas" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="casa">Casas</a>
+                    <a href="#apartamentos" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="apartamento">Apartamentos</a>
+                    <a href="#terrenos" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="terreno">Terrenos</a>
+                    <a href="#loteamentos" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="loteamento">Loteamentos</a>
+                    <a href="#propriedades-rurais" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="propriedade_rural">Propriedades Rurais</a>
+                    <a href="#sitios-fazendas" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="sitio_fazenda">Sítios/Fazendas</a>
                 </nav>
                 
                 <!-- Mobile Menu Button -->
@@ -95,12 +95,12 @@
             <div class="md:hidden mt-4 pb-4 border-t border-gray-200 hidden" id="mobile-menu">
                 <nav class="flex flex-col space-y-4 mt-4">
                     <a href="#home" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Home</a>
-                    <a href="#casas" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Casas</a>
-                    <a href="#apartamentos" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Apartamentos</a>
-                    <a href="#terrenos" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Terrenos</a>
-                    <a href="#loteamentos" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Loteamentos</a>
-                    <a href="#propriedades-rurais" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Propriedades Rurais</a>
-                    <a href="#sitios-fazendas" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Sítios/Fazendas</a>
+                    <a href="#casas" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="casa">Casas</a>
+                    <a href="#apartamentos" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="apartamento">Apartamentos</a>
+                    <a href="#terrenos" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="terreno">Terrenos</a>
+                    <a href="#loteamentos" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="loteamento">Loteamentos</a>
+                    <a href="#propriedades-rurais" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="propriedade_rural">Propriedades Rurais</a>
+                    <a href="#sitios-fazendas" class="nav-filter-link text-gray-700 hover:text-purple-600 font-semibold transition-colors" data-type="sitio_fazenda">Sítios/Fazendas</a>
                     <a href="#sobre" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Sobre</a>
                     <a href="#contato" class="text-gray-700 hover:text-purple-600 font-semibold transition-colors">Contato</a>
                 </nav>
@@ -129,36 +129,107 @@
     <div class="md:sticky-search bg-white/90 shadow-lg py-4">
         <div class="container mx-auto px-6">
             <div class="bg-white rounded-2xl shadow-xl p-6">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <form id="search-form" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Imóvel</label>
-                        <select class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
-                            <option>Casa</option>
-                            <option>Apartamento</option>
-                            <option>Terreno</option>
-                            <option>Loteamento</option>
-                            <option>Arrendamento</option>
-                            <option>Propriedades Rurais</option>
+                        <select id="property-type" name="type" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                            <option value="">Todos os tipos</option>
+                            <option value="casa">Casa</option>
+                            <option value="apartamento">Apartamento</option>
+                            <option value="cobertura">Cobertura</option>
+                            <option value="terreno">Terreno</option>
+                            <option value="comercial">Comercial</option>
+                            <option value="loteamento">Loteamento</option>
+                            <option value="rural">Propriedade Rural</option>
+                            <option value="sitio">Sítio/Fazenda</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Faixa de Preço</label>
-                        <input type="range" class="w-full" min="100000" max="2000000" value="500000">
-                        <div class="text-sm text-gray-600 mt-1">R$ 100k - R$ 2M</div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Preço Mínimo</label>
+                        <select id="min-price" name="minPrice" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                            <option value="">Sem mínimo</option>
+                            <option value="100000">R$ 100.000</option>
+                            <option value="200000">R$ 200.000</option>
+                            <option value="300000">R$ 300.000</option>
+                            <option value="500000">R$ 500.000</option>
+                            <option value="1000000">R$ 1.000.000</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Preço Máximo</label>
+                        <select id="max-price" name="maxPrice" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                            <option value="">Sem máximo</option>
+                            <option value="300000">R$ 300.000</option>
+                            <option value="500000">R$ 500.000</option>
+                            <option value="1000000">R$ 1.000.000</option>
+                            <option value="2000000">R$ 2.000.000</option>
+                            <option value="5000000">R$ 5.000.000</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             <i class="fas fa-map-marker-alt text-purple-500"></i> Localização
                         </label>
-                        <input type="text" placeholder="Digite o bairro ou cidade" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                        <input id="location" name="city" type="text" placeholder="Digite o bairro ou cidade" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
                     </div>
-                    <button class="gradient-purple text-white px-8 py-3 rounded-lg font-bold hover:shadow-lg animate-pulse-hover">
-                        Buscar
+                    <button type="submit" class="gradient-purple text-white px-8 py-3 rounded-lg font-bold hover:shadow-lg animate-pulse-hover">
+                        <i class="fas fa-search mr-2"></i>Buscar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Results Section -->
+    <section id="search-results-section" class="py-20 bg-gray-50 hidden">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-4xl font-bold mb-2">Resultados da Busca</h2>
+                    <p id="search-results-count" class="text-gray-600"></p>
+                </div>
+                <button id="clear-search" class="text-purple-600 hover:text-purple-800 font-semibold">
+                    <i class="fas fa-times mr-2"></i>Limpar Busca
+                </button>
+            </div>
+            
+            <!-- Search Results Loading -->
+            <div id="search-loading" class="text-center py-12 hidden">
+                <i class="fas fa-spinner fa-spin text-4xl text-purple-600 mb-4"></i>
+                <p class="text-gray-600">Buscando imóveis...</p>
+            </div>
+            
+            <!-- Search Results Grid -->
+            <div id="search-results-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Search results will be loaded here dynamically -->
+            </div>
+            
+            <!-- No Search Results -->
+            <div id="no-search-results" class="text-center py-12 hidden">
+                <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600 text-xl mb-4">Nenhum imóvel encontrado com os filtros selecionados.</p>
+                <p class="text-gray-500">Tente ajustar os filtros de busca ou entre em contato conosco.</p>
+                <button onclick="document.getElementById('search-form').reset(); clearSearch();" class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
+                    Nova Busca
+                </button>
+            </div>
+            
+            <!-- Pagination -->
+            <div id="search-pagination" class="flex justify-center mt-12 hidden">
+                <div class="flex space-x-2">
+                    <button id="prev-page" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <div id="page-numbers" class="flex space-x-2">
+                        <!-- Page numbers will be inserted here -->
+                    </div>
+                    <button id="next-page" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Próximo <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Benefits Section -->
     <section class="py-20 bg-gray-50">
@@ -184,49 +255,30 @@
     </section>
 
     <!-- Featured Properties Carousel -->
-    <section class="py-20">
+    <section class="py-20" id="featured-properties">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-12">Imóveis em Destaque</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate-scale-hover">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Casa Moderna" class="w-full h-64 object-cover">
-                        <span class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">DESTAQUE</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Casa Moderna - Alphaville</h3>
-                        <p class="text-3xl font-bold text-purple-600 mb-4">R$ 850.000</p>
-                        <button class="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-700">
-                            Agendar Visita →
-                        </button>
-                    </div>
-                </div>
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate-scale-hover">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Apartamento Luxo" class="w-full h-64 object-cover">
-                        <span class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">DESTAQUE</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Apartamento Luxo - Moema</h3>
-                        <p class="text-3xl font-bold text-purple-600 mb-4">R$ 1.200.000</p>
-                        <button class="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-700">
-                            Agendar Visita →
-                        </button>
-                    </div>
-                </div>
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate-scale-hover">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cobertura Premium" class="w-full h-64 object-cover">
-                        <span class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">DESTAQUE</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Cobertura Premium - Vila Olímpia</h3>
-                        <p class="text-3xl font-bold text-purple-600 mb-4">R$ 2.500.000</p>
-                        <button class="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-700">
-                            Agendar Visita →
-                        </button>
-                    </div>
-                </div>
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-4xl font-bold">Imóveis em Destaque</h2>
+                <button id="view-all-featured" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+                    Ver Todos os Destaques
+                </button>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="properties-loading" class="text-center py-12">
+                <i class="fas fa-spinner fa-spin text-4xl text-purple-600 mb-4"></i>
+                <p class="text-gray-600">Carregando imóveis...</p>
+            </div>
+            
+            <!-- Properties Grid -->
+            <div id="properties-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 hidden">
+                <!-- Properties will be loaded here dynamically -->
+            </div>
+            
+            <!-- No Properties Message -->
+            <div id="no-properties" class="text-center py-12 hidden">
+                <i class="fas fa-home text-4xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600">Nenhum imóvel encontrado no momento.</p>
             </div>
         </div>
     </section>
@@ -310,23 +362,27 @@
                     <!-- Contact Form -->
                     <div>
                         <h3 class="text-2xl font-bold mb-6">Envie sua Mensagem / Proposta</h3>
-                        <form class="space-y-4">
+                        <form id="contact-form" class="space-y-4">
                             <div>
-                                <input type="text" placeholder="Seu nome completo" class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                                <input type="text" id="name" name="name" placeholder="Seu nome completo" required class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
                             </div>
                             <div>
-                                <input type="email" placeholder="Seu e-mail" class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                                <input type="email" id="email" name="email" placeholder="Seu e-mail" required class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
                             </div>
                             <div>
-                                <input type="tel" placeholder="Seu telefone" class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                                <input type="tel" id="phone" name="phone" placeholder="Seu telefone" required class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
                             </div>
                             <div>
-                                <textarea placeholder="Sua mensagem" rows="5" class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none resize-none"></textarea>
+                                <textarea id="message" name="message" placeholder="Sua mensagem" rows="5" required class="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none resize-none"></textarea>
                             </div>
-                            <button type="submit" class="w-full gradient-purple text-white py-4 rounded-lg text-xl font-bold hover:shadow-2xl transition-all">
-                                Enviar Mensagem
+                            <button type="submit" id="submit-btn" class="w-full gradient-purple text-white py-4 rounded-lg text-xl font-bold hover:shadow-2xl transition-all">
+                                <span id="btn-text">Enviar Mensagem</span>
+                                <i id="btn-loading" class="fas fa-spinner fa-spin hidden ml-2"></i>
                             </button>
                         </form>
+                        
+                        <!-- Success/Error Messages -->
+                        <div id="form-message" class="hidden mt-4 p-4 rounded-lg"></div>
                     </div>
                 </div>
             </div>
@@ -370,7 +426,7 @@
                         <a href="#" class="bg-purple-600 text-white p-3 rounded-full hover:bg-purple-700 transition-colors">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="bg-purple-600 text-white p-3 rounded-full hover:bg-purple-700 transition-colors">
+                        <a href="https://wa.me/5544991645526?text=Como%20posso%20te%20ajudar?" target="_blank" class="bg-purple-600 text-white p-3 rounded-full hover:bg-purple-700 transition-colors">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                         <a href="#" class="bg-purple-600 text-white p-3 rounded-full hover:bg-purple-700 transition-colors">
@@ -439,6 +495,11 @@
             chatbot.classList.add('animate-bounce');
         }, 15000);
 
+        // Chatbot WhatsApp Redirect
+        document.getElementById('chatbot').addEventListener('click', function() {
+            window.open('https://wa.me/5544991645526?text=Como%20posso%20te%20ajudar?', '_blank');
+        });
+
         // Mobile Menu Toggle
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
@@ -463,11 +524,436 @@
             }
         }
 
+        // Load properties from API
+        async function loadFeaturedProperties() {
+            const loadingElement = document.getElementById('properties-loading');
+            const gridElement = document.getElementById('properties-grid');
+            const noPropertiesElement = document.getElementById('no-properties');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/properties/search?limit=6');
+                const result = await response.json();
+
+                // Hide loading
+                loadingElement.classList.add('hidden');
+
+                if (result.success && result.data && result.data.properties && result.data.properties.length > 0) {
+                    // Show properties grid
+                    gridElement.classList.remove('hidden');
+                    
+                    // Clear existing content
+                    gridElement.innerHTML = '';
+                    
+                    // Add properties to grid
+                    result.data.properties.forEach(property => {
+                        const propertyCard = createPropertyCard(property, true);
+                    gridElement.appendChild(propertyCard);
+                    });
+                } else {
+                    // Show no properties message
+                    noPropertiesElement.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar imóveis:', error);
+                loadingElement.classList.add('hidden');
+                noPropertiesElement.classList.remove('hidden');
+            }
+        }
+
+        // Create property card element
+        function createPropertyCard(property, showFeaturedBadge = false) {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-2xl shadow-xl overflow-hidden animate-scale-hover';
+            
+            // Get first image or use placeholder
+            const firstImage = property.images && property.images.length > 0 
+                ? property.images[0] 
+                : 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+            
+            // Format price
+            const formattedPrice = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(property.price);
+
+            card.innerHTML = `
+                <div class="relative cursor-pointer" onclick="openPropertyGallery('${property.id}', ${JSON.stringify(property.images || []).replace(/"/g, '&quot;')}, '${property.title.replace(/'/g, '\\\'')}')" title="Clique para ver mais fotos">
+                    <img src="${firstImage}" alt="${property.title}" class="w-full h-64 object-cover hover:opacity-90 transition-opacity" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    ${showFeaturedBadge ? '<span class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">DESTAQUE</span>' : ''}
+                    ${property.images && property.images.length > 1 ? `<div class="absolute top-4 right-4 bg-black bg-opacity-60 text-white px-2 py-1 rounded-full text-xs flex items-center"><i class="fas fa-images mr-1"></i>${property.images.length} fotos</div>` : ''}
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                        <div class="opacity-0 hover:opacity-100 transition-opacity bg-white bg-opacity-90 px-4 py-2 rounded-full text-gray-800 font-semibold">
+                            <i class="fas fa-search-plus mr-2"></i>Ver Galeria
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-2">${property.title}</h3>
+                    <p class="text-gray-600 mb-2">
+                        <i class="fas fa-map-marker-alt text-purple-600"></i> 
+                        ${property.location}
+                    </p>
+                    <p class="text-3xl font-bold text-purple-600 mb-4">${formattedPrice}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                        <span><i class="fas fa-bed"></i> ${property.bedrooms} quartos</span>
+                        <span><i class="fas fa-bath"></i> ${property.bathrooms} banheiros</span>
+                        <span><i class="fas fa-ruler-combined"></i> ${property.area}m²</span>
+                    </div>
+                    <button class="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-700" onclick="scheduleVisit('${property.id}', '${property.title}')">
+                        Agendar Visita →
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Schedule visit function
+        function scheduleVisit(propertyId, propertyTitle) {
+            const modal = document.getElementById('visit-modal');
+            const modalTitle = document.getElementById('visit-modal-title');
+            const visitForm = document.getElementById('visit-form');
+            
+            modalTitle.textContent = `Agendar Visita - ${propertyTitle}`;
+            visitForm.dataset.propertyId = propertyId;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close visit modal
+        function closeVisitModal() {
+            const modal = document.getElementById('visit-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('visit-form').reset();
+        }
+
+        // Handle visit form submission
+        async function handleVisitSubmission(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const propertyId = form.dataset.propertyId;
+            const submitBtn = document.getElementById('visit-submit-btn');
+            const btnText = document.getElementById('visit-btn-text');
+            const btnLoading = document.getElementById('visit-btn-loading');
+            const messageDiv = document.getElementById('visit-form-message');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.textContent = 'Enviando...';
+            btnLoading.classList.remove('hidden');
+            messageDiv.classList.add('hidden');
+            
+            const formData = {
+                propertyId: propertyId,
+                name: form.name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                preferredDate: form.preferredDate.value,
+                preferredTime: form.preferredTime.value,
+                message: form.message.value
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/visits', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    messageDiv.className = 'mt-4 p-4 rounded-lg bg-green-100 text-green-800';
+                    messageDiv.textContent = 'Visita agendada com sucesso! Você receberá um email de confirmação.';
+                    messageDiv.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        closeVisitModal();
+                    }, 2000);
+                } else {
+                    throw new Error(result.error || 'Erro ao agendar visita');
+                }
+            } catch (error) {
+                console.error('Erro ao agendar visita:', error);
+                messageDiv.className = 'mt-4 p-4 rounded-lg bg-red-100 text-red-800';
+                messageDiv.textContent = error.message || 'Erro ao agendar visita. Tente novamente.';
+                messageDiv.classList.remove('hidden');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.textContent = 'Agendar Visita';
+                btnLoading.classList.add('hidden');
+            }
+        }
+
+        // Property gallery functions
+        function openPropertyGallery(propertyId, images, propertyTitle) {
+            const modal = document.getElementById('property-gallery-modal');
+            const modalTitle = document.getElementById('gallery-title');
+            const galleryContainer = document.getElementById('gallery-container');
+            const currentImageDisplay = document.getElementById('current-image-display');
+            
+            // Set title
+            modalTitle.textContent = propertyTitle;
+            
+            // Clear previous images
+            galleryContainer.innerHTML = '';
+            
+            // If no images, show default
+            if (!images || images.length === 0) {
+                images = ['https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'];
+            }
+            
+            // Set first image as current
+            currentImageDisplay.src = images[0];
+            currentImageDisplay.alt = propertyTitle;
+            
+            // Create thumbnail gallery
+            images.forEach((image, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = image;
+                thumbnail.alt = `${propertyTitle} - Foto ${index + 1}`;
+                thumbnail.className = `w-20 h-20 object-cover rounded-lg cursor-pointer border-2 transition-all ${index === 0 ? 'border-purple-500' : 'border-gray-300 hover:border-purple-300'}`;
+                thumbnail.onclick = () => selectGalleryImage(image, index, images.length);
+                galleryContainer.appendChild(thumbnail);
+            });
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function selectGalleryImage(imageSrc, index, totalImages) {
+            const currentImageDisplay = document.getElementById('current-image-display');
+            const thumbnails = document.querySelectorAll('#gallery-container img');
+            
+            // Update main image
+            currentImageDisplay.src = imageSrc;
+            
+            // Update thumbnail borders
+            thumbnails.forEach((thumb, i) => {
+                if (i === index) {
+                    thumb.className = thumb.className.replace('border-gray-300 hover:border-purple-300', 'border-purple-500');
+                } else {
+                    thumb.className = thumb.className.replace('border-purple-500', 'border-gray-300 hover:border-purple-300');
+                }
+            });
+        }
+
+        function closePropertyGallery() {
+            const modal = document.getElementById('property-gallery-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Search functionality
+        let currentSearchPage = 1;
+        let currentSearchFilters = {};
+
+        async function handleSearchForm(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const filters = {
+                type: formData.get('type') || undefined,
+                city: formData.get('city') || undefined,
+                minPrice: formData.get('minPrice') || undefined,
+                maxPrice: formData.get('maxPrice') || undefined,
+                page: 1,
+                limit: 9
+            };
+
+            // Remove empty filters
+            Object.keys(filters).forEach(key => {
+                if (!filters[key]) {
+                    delete filters[key];
+                }
+            });
+
+            currentSearchFilters = filters;
+            currentSearchPage = 1;
+            
+            await performSearch(filters);
+        }
+
+        async function performSearch(filters) {
+            const searchSection = document.getElementById('search-results-section');
+            const searchLoading = document.getElementById('search-loading');
+            const searchGrid = document.getElementById('search-results-grid');
+            const noResults = document.getElementById('no-search-results');
+            const searchCount = document.getElementById('search-results-count');
+            const pagination = document.getElementById('search-pagination');
+
+            // Show search section and loading
+            searchSection.classList.remove('hidden');
+            searchLoading.classList.remove('hidden');
+            searchGrid.innerHTML = '';
+            noResults.classList.add('hidden');
+            pagination.classList.add('hidden');
+
+            // Scroll to search results
+            searchSection.scrollIntoView({ behavior: 'smooth' });
+
+            try {
+                const queryParams = new URLSearchParams(filters);
+                const response = await fetch(`http://localhost:3000/api/properties/search?${queryParams}`);
+                const result = await response.json();
+
+                searchLoading.classList.add('hidden');
+
+                if (result.success && result.data.properties.length > 0) {
+                    // Display results
+                    searchCount.textContent = `${result.data.total} imóveis encontrados`;
+                    
+                    result.data.properties.forEach(property => {
+                        const card = createPropertyCard(property);
+                        searchGrid.appendChild(card);
+                    });
+
+                    // Setup pagination if needed
+                    if (result.data.totalPages > 1) {
+                        setupPagination(result.data.currentPage, result.data.totalPages);
+                        pagination.classList.remove('hidden');
+                    }
+                } else {
+                    // No results found
+                    noResults.classList.remove('hidden');
+                    searchCount.textContent = 'Nenhum imóvel encontrado';
+                }
+            } catch (error) {
+                console.error('Erro na busca:', error);
+                searchLoading.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                searchCount.textContent = 'Erro na busca';
+            }
+        }
+
+        function setupPagination(currentPage, totalPages) {
+            const pageNumbers = document.getElementById('page-numbers');
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+
+            // Clear previous page numbers
+            pageNumbers.innerHTML = '';
+
+            // Previous button
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentSearchPage = currentPage - 1;
+                    currentSearchFilters.page = currentSearchPage;
+                    performSearch(currentSearchFilters);
+                }
+            };
+
+            // Page numbers
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = `px-4 py-2 rounded-lg ${i === currentPage ? 'bg-purple-600 text-white' : 'bg-white border border-gray-300 hover:bg-gray-50'}`;
+                pageBtn.onclick = () => {
+                    currentSearchPage = i;
+                    currentSearchFilters.page = i;
+                    performSearch(currentSearchFilters);
+                };
+                pageNumbers.appendChild(pageBtn);
+            }
+
+            // Next button
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentSearchPage = currentPage + 1;
+                    currentSearchFilters.page = currentSearchPage;
+                    performSearch(currentSearchFilters);
+                }
+            };
+        }
+
+        function clearSearch() {
+            const searchSection = document.getElementById('search-results-section');
+            const searchForm = document.getElementById('search-form');
+            
+            // Hide search results
+            searchSection.classList.add('hidden');
+            
+            // Reset form
+            searchForm.reset();
+            
+            // Reset search state
+            currentSearchFilters = {};
+            currentSearchPage = 1;
+            
+            // Scroll back to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            // Load featured properties
+            loadFeaturedProperties();
             
             // Mobile menu toggle
             document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+            
+            // Search form submission
+            const searchForm = document.getElementById('search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', handleSearchForm);
+            }
+            
+            // Clear search button
+            const clearSearchBtn = document.getElementById('clear-search');
+            if (clearSearchBtn) {
+                clearSearchBtn.addEventListener('click', clearSearch);
+            }
+            
+            // Navigation filter links
+                const navFilterLinks = document.querySelectorAll('.nav-filter-link');
+                navFilterLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const propertyType = link.getAttribute('data-type');
+                        
+                        // Set the search form type and perform search
+                        const typeSelect = document.querySelector('select[name="type"]');
+                        if (typeSelect) {
+                            typeSelect.value = propertyType;
+                        }
+                        
+                        // Perform search with the selected type
+                        const filters = {
+                            type: propertyType,
+                            page: 1,
+                            limit: 9
+                        };
+                        
+                        currentSearchFilters = filters;
+                        currentSearchPage = 1;
+                        performSearch(filters);
+                    });
+                });
+                
+                // View all featured properties button
+                const viewAllFeaturedBtn = document.getElementById('view-all-featured');
+                if (viewAllFeaturedBtn) {
+                    viewAllFeaturedBtn.addEventListener('click', () => {
+                        // Perform search for featured properties
+                        const filters = {
+                            featured: true,
+                            page: 1,
+                            limit: 12
+                        };
+                        
+                        currentSearchFilters = filters;
+                        currentSearchPage = 1;
+                        performSearch(filters);
+                    });
+                }
             
             // Smooth scrolling for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -480,7 +966,215 @@
                 });
             });
             
-            // Counter animation removed as the section was deleted
+            // Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', handleContactForm);
+            }
+        });
+
+        // Handle contact form submission
+        async function handleContactForm(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnLoading = document.getElementById('btn-loading');
+            const formMessage = document.getElementById('form-message');
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                message: formData.get('message')
+            };
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.textContent = 'Enviando...';
+            btnLoading.classList.remove('hidden');
+            formMessage.classList.add('hidden');
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Success message
+                    formMessage.className = 'mt-4 p-4 rounded-lg bg-green-100 border border-green-400 text-green-700';
+                    formMessage.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            <span>${result.message}</span>
+                        </div>
+                    `;
+                    formMessage.classList.remove('hidden');
+                    
+                    // Reset form
+                    e.target.reset();
+                } else {
+                    throw new Error(result.message || 'Erro ao enviar mensagem');
+                }
+            } catch (error) {
+                // Error message
+                formMessage.className = 'mt-4 p-4 rounded-lg bg-red-100 border border-red-400 text-red-700';
+                formMessage.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span>Erro ao enviar mensagem. Tente novamente ou entre em contato pelo WhatsApp.</span>
+                    </div>
+                `;
+                formMessage.classList.remove('hidden');
+                console.error('Erro:', error);
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.textContent = 'Enviar Mensagem';
+                btnLoading.classList.add('hidden');
+            }
+        }
+    </script>
+
+    <!-- Modal de Galeria de Propriedades -->
+    <div id="property-gallery-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <!-- Header do Modal -->
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 id="gallery-title" class="text-xl font-bold text-gray-800">Galeria de Fotos</h3>
+                <button onclick="closePropertyGallery()" class="text-gray-500 hover:text-gray-700 text-2xl font-bold">
+                    &times;
+                </button>
+            </div>
+            
+            <!-- Conteúdo do Modal -->
+            <div class="p-4">
+                <!-- Imagem Principal -->
+                <div class="mb-4">
+                    <img id="current-image-display" src="" alt="Imagem da propriedade" 
+                         class="w-full h-96 object-cover rounded-lg">
+                </div>
+                
+                <!-- Galeria de Miniaturas -->
+                <div class="flex gap-2 overflow-x-auto pb-2" id="gallery-container">
+                    <!-- Thumbnails serão inseridas aqui dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para fechar modal clicando fora do conteúdo -->
+    <!-- Visit Scheduling Modal -->
+    <div id="visit-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="visit-modal-title" class="text-2xl font-bold text-gray-800">Agendar Visita</h3>
+                    <button onclick="closeVisitModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="visit-form" onsubmit="handleVisitSubmission(event)" class="space-y-4">
+                    <div>
+                        <label for="visit-name" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo *</label>
+                        <input type="text" id="visit-name" name="name" required 
+                               class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                    </div>
+                    
+                    <div>
+                        <label for="visit-email" class="block text-sm font-medium text-gray-700 mb-1">E-mail *</label>
+                        <input type="email" id="visit-email" name="email" required 
+                               class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                    </div>
+                    
+                    <div>
+                        <label for="visit-phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone *</label>
+                        <input type="tel" id="visit-phone" name="phone" required 
+                               class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="visit-date" class="block text-sm font-medium text-gray-700 mb-1">Data Preferida *</label>
+                            <input type="date" id="visit-date" name="preferredDate" required 
+                                   class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                        </div>
+                        
+                        <div>
+                            <label for="visit-time" class="block text-sm font-medium text-gray-700 mb-1">Horário *</label>
+                            <select id="visit-time" name="preferredTime" required 
+                                    class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none">
+                                <option value="">Selecione</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="visit-message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem (opcional)</label>
+                        <textarea id="visit-message" name="message" rows="3" 
+                                  class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none resize-none"
+                                  placeholder="Alguma observação sobre a visita..."></textarea>
+                    </div>
+                    
+                    <button type="submit" id="visit-submit-btn" 
+                            class="w-full gradient-purple text-white py-3 rounded-lg text-lg font-bold hover:shadow-2xl transition-all">
+                        <span id="visit-btn-text">Agendar Visita</span>
+                        <i id="visit-btn-loading" class="fas fa-spinner fa-spin hidden ml-2"></i>
+                    </button>
+                    
+                    <!-- Success/Error Messages -->
+                    <div id="visit-form-message" class="hidden mt-4 p-4 rounded-lg"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('property-gallery-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePropertyGallery();
+            }
+        });
+
+        // Visit modal event listeners
+        document.getElementById('visit-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVisitModal();
+            }
+        });
+
+        // Fechar modal com tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePropertyGallery();
+                closeVisitModal();
+            }
+        });
+
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('visit-date');
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.min = today;
+            }
         });
     </script>
 </body>

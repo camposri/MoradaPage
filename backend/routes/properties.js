@@ -6,8 +6,8 @@ const router = express.Router();
 
 // Rotas públicas
 
-// GET /api/properties - Buscar propriedades com filtros
-router.get('/', 
+// GET /api/properties/search - Buscar propriedades com filtros
+router.get('/search', 
   validate(schemas.propertySearch),
   propertyController.searchProperties
 );

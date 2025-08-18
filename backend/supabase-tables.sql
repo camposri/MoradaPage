@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS properties (
   bedrooms INTEGER,
   bathrooms INTEGER,
   area DECIMAL(10,2),
-  property_type VARCHAR(50) NOT NULL CHECK (property_type IN ('casa', 'apartamento', 'cobertura', 'terreno', 'comercial')),
+  property_type VARCHAR(50) NOT NULL CHECK (property_type IN ('casa', 'apartamento', 'cobertura', 'terreno', 'comercial', 'loteamento', 'propriedade_rural', 'sitio_fazenda')),
   status VARCHAR(20) DEFAULT 'available' CHECK (status IN ('available', 'sold', 'rented', 'reserved')),
   featured BOOLEAN DEFAULT false,
   images JSONB DEFAULT '[]',

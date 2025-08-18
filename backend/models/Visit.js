@@ -1,4 +1,7 @@
-const supabase = require('../config/supabase');
+// const supabase = require('../config/supabase');
+// Mock data para desenvolvimento local
+const mockVisits = [];
+let nextVisitId = 1;
 
 class Visit {
   constructor() {
@@ -8,28 +11,17 @@ class Visit {
   // Criar novo agendamento de visita
   async create(visitData) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .insert([{
-          ...visitData,
-          status: 'pending',
-          created_at: new Date().toISOString()
-        }])
-        .select(`
-          *,
-          properties (
-            id,
-            title,
-            address,
-            city,
-            type,
-            price
-          )
-        `)
-        .single();
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const newVisit = {
+        id: nextVisitId++,
+        ...visitData,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      
+      mockVisits.push(newVisit);
+      return newVisit;
     } catch (error) {
       throw error;
     }
@@ -38,66 +30,45 @@ class Visit {
   // Buscar todas as visitas (para admin)
   async findAll(filters = {}) {
     try {
-      let query = supabase
-        .from(this.tableName)
-        .select(`
-          *,
-          properties (
-            id,
-            title,
-            address,
-            city,
-            type,
-            price,
-            images
-          )
-        `);
-
+      // Mock implementation para desenvolvimento local
+      let filteredVisits = [...mockVisits];
+      
       // Filtrar por status
       if (filters.status) {
-        query = query.eq('status', filters.status);
+        filteredVisits = filteredVisits.filter(v => v.status === filters.status);
       }
 
       // Filtrar por data
       if (filters.date) {
-        query = query.eq('preferred_date', filters.date);
+        filteredVisits = filteredVisits.filter(v => v.preferred_date === filters.date);
       }
 
       if (filters.startDate) {
-        query = query.gte('preferred_date', filters.startDate);
+        filteredVisits = filteredVisits.filter(v => v.preferred_date >= filters.startDate);
       }
 
       if (filters.endDate) {
-        query = query.lte('preferred_date', filters.endDate);
+        filteredVisits = filteredVisits.filter(v => v.preferred_date <= filters.endDate);
       }
 
       // Filtrar por propriedade
       if (filters.propertyId) {
-        query = query.eq('property_id', filters.propertyId);
+        filteredVisits = filteredVisits.filter(v => v.property_id == filters.propertyId);
       }
 
       // Paginação
       const page = filters.page || 1;
       const limit = filters.limit || 20;
       const offset = (page - 1) * limit;
-
-      query = query.range(offset, offset + limit - 1);
-
-      // Ordenação
-      query = query.order('preferred_date', { ascending: true })
-                   .order('preferred_time', { ascending: true });
-
-      const { data, error, count } = await query;
-
-      if (error) throw error;
+      const paginatedVisits = filteredVisits.slice(offset, offset + limit);
 
       return {
-        visits: data,
+        visits: paginatedVisits,
         pagination: {
           page,
           limit,
-          total: count,
-          totalPages: Math.ceil(count / limit)
+          total: filteredVisits.length,
+          totalPages: Math.ceil(filteredVisits.length / limit)
         }
       };
     } catch (error) {
@@ -108,26 +79,12 @@ class Visit {
   // Buscar visita por ID
   async findById(id) {
     try {
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .select(`
-          *,
-          properties (
-            id,
-            title,
-            address,
-            city,
-            type,
-            price,
-            images,
-            description
-          )
-        `)
-        .eq('id', id)
-        .single();
-
-      if (error) throw error;
-      return data;
+      // Mock implementation para desenvolvimento local
+      const visit = mockVisits.find(v => v.id == id);
+      if (!visit) {
+        throw new Error('Visita não encontrada');
+      }
+      return visit;
     } catch (error) {
       throw error;
     }
@@ -163,42 +120,28 @@ class Visit {
   // Atualizar status da visita
   async updateStatus(id, status, notes = null) {
     try {
-      const updateData = {
-        status,
-        updated_at: new Date().toISOString()
-      };
-
+      // Mock implementation para desenvolvimento local
+      const visitIndex = mockVisits.findIndex(v => v.id == id);
+      if (visitIndex === -1) {
+        throw new Error('Visita não encontrada');
+      }
+      
+      mockVisits[visitIndex].status = status;
+      mockVisits[visitIndex].updated_at = new Date().toISOString();
+      
       if (notes) {
-        updateData.admin_notes = notes;
+        mockVisits[visitIndex].admin_notes = notes;
       }
 
       if (status === 'confirmed') {
-        updateData.confirmed_at = new Date().toISOString();
+        mockVisits[visitIndex].confirmed_at = new Date().toISOString();
       } else if (status === 'completed') {
-        updateData.completed_at = new Date().toISOString();
+        mockVisits[visitIndex].completed_at = new Date().toISOString();
       } else if (status === 'cancelled') {
-        updateData.cancelled_at = new Date().toISOString();
+        mockVisits[visitIndex].cancelled_at = new Date().toISOString();
       }
-
-      const { data, error } = await supabase
-        .from(this.tableName)
-        .update(updateData)
-        .eq('id', id)
-        .select(`
-          *,
-          properties (
-            id,
-            title,
-            address,
-            city,
-            type,
-            price
-          )
-        `)
-        .single();
-
-      if (error) throw error;
-      return data;
+      
+      return mockVisits[visitIndex];
     } catch (error) {
       throw error;
     }
@@ -240,21 +183,18 @@ class Visit {
   // Verificar disponibilidade de horário
   async checkAvailability(date, time, excludeId = null) {
     try {
-      let query = supabase
-        .from(this.tableName)
-        .select('id')
-        .eq('preferred_date', date)
-        .eq('preferred_time', time)
-        .in('status', ['pending', 'confirmed', 'rescheduled']);
+      // Mock implementation para desenvolvimento local
+      let conflictingVisits = mockVisits.filter(v => 
+        v.preferred_date === date && 
+        v.preferred_time === time && 
+        ['pending', 'confirmed', 'rescheduled'].includes(v.status)
+      );
 
       if (excludeId) {
-        query = query.neq('id', excludeId);
+        conflictingVisits = conflictingVisits.filter(v => v.id != excludeId);
       }
 
-      const { data, error } = await query;
-
-      if (error) throw error;
-      return data.length === 0; // true se disponível
+      return conflictingVisits.length === 0; // true se disponível
     } catch (error) {
       throw error;
     }
