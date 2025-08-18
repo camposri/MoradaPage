@@ -14,5 +14,8 @@
     "static"
   ],
   "author": "Valmike Junior",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
 }
