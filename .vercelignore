@@ -1,0 +1,24 @@
+backend/node_modules
+backend/tests
+backend/test-api.js
+backend/.env
+backend/README.md
+backend/CONFIGURACAO.md
+*.log
+.git
+.gitignore
+README.md
+DEPLOY.md
+build.js
+deploy-config.json
+*.jpeg
+*.jpg
+*.png
+*.webp
+FotoAvatar.JPG
+Logo1.png
+logo 4.png
+logo.webp
+image1.jpeg
+image2.jpeg
+image3.jpeg

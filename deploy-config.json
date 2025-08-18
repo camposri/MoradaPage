@@ -1,6 +1,8 @@
 {
-  "backend_url": "https://sua-api.railway.app",
-  "frontend_url": "https://seu-site.vercel.app",
-  "build_date": "2025-08-18T20:49:54.671Z",
-  "version": "1.0.0"
+  "buildDate": "2025-08-18T21:36:06.674Z",
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "vercel",
+  "apiUrl": "https://sua-app.vercel.app/api",
+  "frontendUrl": "https://sua-app.vercel.app"
 }

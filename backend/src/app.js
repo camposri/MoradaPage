@@ -69,11 +69,5 @@ app.use('*', (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🌐 Health check: http://localhost:${PORT}/health`);
-});
-
+// Export app for serverless deployment
 module.exports = app;
