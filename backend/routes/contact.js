@@ -1,6 +1,6 @@
 const express = require('express');
 const contactController = require('../controllers/contactController');
-const { validateRequest, contactSchema } = require('../middleware/validation');
+const { validate, schemas } = require('../middleware/validation');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 
 // POST /api/contact - Criar novo contato
 router.post('/', 
-  validateRequest(contactSchema),
+  validate(schemas.contact),
   contactController.createContact
 );
 
@@ -42,7 +42,7 @@ router.put('/:id/read',
 // POST /api/contact/:id/reply - Responder a um contato
 router.post('/:id/reply', 
   // authMiddleware,
-  contactController.replyToContact
+  contactController.respondContact
 );
 
 // DELETE /api/contact/:id - Deletar contato

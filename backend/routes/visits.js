@@ -1,6 +1,6 @@
 const express = require('express');
 const visitController = require('../controllers/visitController');
-const { validateRequest, visitSchema } = require('../middleware/validation');
+const { validate, schemas } = require('../middleware/validation');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 
 // POST /api/visits - Agendar nova visita
 router.post('/', 
-  validateRequest(visitSchema),
+  validate(schemas.visit),
   visitController.scheduleVisit
 );
 

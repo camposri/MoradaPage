@@ -6,14 +6,14 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 // Import routes
-const propertyRoutes = require('./routes/propertyRoutes');
-const contactRoutes = require('./routes/contactRoutes');
-const visitRoutes = require('./routes/visitRoutes');
-const chatRoutes = require('./routes/chatRoutes');
+const propertyRoutes = require('../routes/properties');
+const contactRoutes = require('../routes/contact');
+const visitRoutes = require('../routes/visits');
+const chatRoutes = require('../routes/chat');
 
 // Import middleware
-const errorHandler = require('./middleware/errorHandler');
-const logger = require('./middleware/logger');
+const errorHandler = require('../middleware/errorHandler');
+const logger = require('../middleware/logger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;

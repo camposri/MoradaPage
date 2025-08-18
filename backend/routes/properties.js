@@ -1,7 +1,6 @@
 const express = require('express');
 const propertyController = require('../controllers/propertyController');
-const { validateRequest } = require('../middleware/validation');
-const { propertySearchSchema } = require('../middleware/validation');
+const { validate, schemas } = require('../middleware/validation');
 
 const router = express.Router();
 
@@ -9,7 +8,7 @@ const router = express.Router();
 
 // GET /api/properties - Buscar propriedades com filtros
 router.get('/', 
-  validateRequest(propertySearchSchema, 'query'),
+  validate(schemas.propertySearch),
   propertyController.searchProperties
 );
 

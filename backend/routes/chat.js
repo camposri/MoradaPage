@@ -1,6 +1,6 @@
 const express = require('express');
 const chatController = require('../controllers/chatController');
-const { validateRequest, chatMessageSchema } = require('../middleware/validation');
+const { validate, schemas } = require('../middleware/validation');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.post('/session', chatController.startSession);
 
 // POST /api/chat/message - Enviar mensagem
 router.post('/message', 
-  validateRequest(chatMessageSchema),
+  validate(schemas.chatMessage),
   chatController.sendMessage
 );
 
