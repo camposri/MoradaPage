@@ -13,7 +13,7 @@
     "deploy": "npm run build && echo 'Ready for deployment'",
     "serve": "npm run frontend",
     "install-backend": "cd backend && npm install",
-    "vercel-build": "npm run build:vercel"
+    "vercel-build": "npm run build:vercel && echo 'Build completed successfully'"
   },
   "keywords": [
     "real-estate",
