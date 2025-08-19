@@ -15,6 +15,10 @@
       "dest": "/api/properties/featured.js"
     },
     {
+      "src": "/api/properties$",
+      "dest": "/api/properties/index.js"
+    },
+    {
       "src": "/api/properties/([^/]+)",
       "dest": "/api/properties/[id].js?id=$1"
     },

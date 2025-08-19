@@ -5,6 +5,10 @@ let supabaseClient = null;
 
 function getSupabaseClient() {
   if (!supabaseClient) {
+    console.log('=== SUPABASE CONFIG DEBUG ===');
+    console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? 'SET' : 'NOT SET');
+    console.log('SUPABASE_ANON_KEY:', process.env.SUPABASE_ANON_KEY ? 'SET' : 'NOT SET');
+    
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
       throw new Error('Variáveis de ambiente SUPABASE_URL e SUPABASE_ANON_KEY são obrigatórias');
     }
@@ -13,6 +17,8 @@ function getSupabaseClient() {
       process.env.SUPABASE_URL,
       process.env.SUPABASE_ANON_KEY
     );
+    
+    console.log('Supabase client created successfully');
   }
   
   return supabaseClient;
@@ -20,9 +26,14 @@ function getSupabaseClient() {
 
 // Função para buscar propriedades com filtros
 async function searchProperties(filters) {
+  console.log('=== SEARCH PROPERTIES SUPABASE DEBUG ===');
+  console.log('Filters received:', filters);
+  
   const supabase = getSupabaseClient();
   const { page = 1, limit = 10, ...searchFilters } = filters;
   const offset = (page - 1) * limit;
+
+  console.log('Page:', page, 'Limit:', limit, 'Offset:', offset);
 
   let query = supabase
     .from('properties')

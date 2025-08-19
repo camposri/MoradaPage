@@ -544,8 +544,8 @@
                 const isEditing = editingId && editingId !== '';
                 
                 const url = editingId 
-                    ? `http://localhost:3000/api/properties/${editingId}`
-                : 'http://localhost:3000/api/properties';
+                    ? `/api/properties/${editingId}`
+                : '/api/properties';
                 
                 const method = isEditing ? 'PUT' : 'POST';
 
@@ -556,6 +556,19 @@
                     },
                     body: JSON.stringify(propertyData)
                 });
+
+                // Verificar se a resposta é válida
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+
+                // Verificar se a resposta contém JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const errorText = await response.text();
+                    throw new Error('Resposta inválida do servidor: ' + errorText.substring(0, 100));
+                }
 
                 const result = await response.json();
 
@@ -643,8 +656,22 @@
                     }
                 });
                 
-                const url = `http://localhost:3000/api/properties/search${params.toString() ? '?' + params.toString() : ''}`;
+                const url = `/api/properties/search${params.toString() ? '?' + params.toString() : ''}`;
                 const response = await fetch(url);
+                
+                // Verificar se a resposta é válida
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+
+                // Verificar se a resposta contém JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const errorText = await response.text();
+                    throw new Error('Resposta inválida do servidor: ' + errorText.substring(0, 100));
+                }
+                
                 const result = await response.json();
 
                 if (result.success) {
@@ -713,7 +740,7 @@
         // Visit management functions
         async function confirmVisit(visitId) {
             try {
-                const response = await fetch(`http://localhost:3000/api/visits/${visitId}/confirm`, {
+                const response = await fetch(`/api/visits/${visitId}/confirm`, {
                     method: 'PUT'
                 });
                 
@@ -732,7 +759,7 @@
             if (!confirm('Tem certeza que deseja cancelar esta visita?')) return;
             
             try {
-                const response = await fetch(`http://localhost:3000/api/visits/${visitId}/cancel`, {
+                const response = await fetch(`/api/visits/${visitId}/cancel`, {
                     method: 'PUT'
                 });
                 
@@ -751,7 +778,7 @@
             const newDate = prompt('Nova data e hora (YYYY-MM-DD HH:MM):');
             if (!newDate) return;
             
-            fetch(`http://localhost:3000/api/visits/${visitId}/reschedule`, {
+            fetch(`/api/visits/${visitId}/reschedule`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -776,7 +803,7 @@
             if (!confirm('Tem certeza que deseja excluir esta visita?')) return;
             
             try {
-                const response = await fetch(`http://localhost:3000/api/visits/${visitId}`, {
+                const response = await fetch(`/api/visits/${visitId}`, {
                     method: 'DELETE'
                 });
                 
@@ -799,7 +826,7 @@
             content.classList.add('hidden');
 
             try {
-                const response = await fetch('http://localhost:3000/api/contact');
+                const response = await fetch('/api/contact');
                 const result = await response.json();
 
                 if (result.success) {
@@ -882,7 +909,7 @@
         // Contact management functions
         async function markContactAsRead(contactId) {
             try {
-                const response = await fetch(`http://localhost:3000/api/contact/${contactId}/read`, {
+                const response = await fetch(`/api/contact/${contactId}/read`, {
                     method: 'PUT'
                 });
                 
@@ -904,7 +931,7 @@
             if (!message) return;
             
             // Send reply
-            fetch(`http://localhost:3000/api/contact/${contactId}/reply`, {
+            fetch(`/api/contact/${contactId}/reply`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -929,7 +956,7 @@
             if (!confirm('Tem certeza que deseja excluir este contato?')) return;
             
             try {
-                const response = await fetch(`http://localhost:3000/api/contact/${contactId}`, {
+                const response = await fetch(`/api/contact/${contactId}`, {
                     method: 'DELETE'
                 });
                 
@@ -951,7 +978,7 @@
             content.classList.add('hidden');
 
             try {
-                const response = await fetch('http://localhost:3000/api/visits');
+                const response = await fetch('/api/visits');
                 const result = await response.json();
 
                 if (result.success) {
@@ -1222,7 +1249,7 @@
         async function editProperty(id) {
             try {
                 // Buscar dados do imóvel
-                const response = await fetch(`http://localhost:3000/api/properties/${id}`);
+                const response = await fetch(`/api/properties/${id}`);
                 const result = await response.json();
                 
                 if (result.success) {
@@ -1283,7 +1310,7 @@
         async function deleteProperty(id) {
             if (confirm('Tem certeza que deseja excluir este imóvel?')) {
                 try {
-                    const response = await fetch(`http://localhost:3000/api/properties/${id}`, {
+                    const response = await fetch(`/api/properties/${id}`, {
                         method: 'DELETE'
                     });
                     
