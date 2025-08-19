@@ -1,23 +1,37 @@
 {
   "version": 2,
-  "name": "morada-premium",
-  "builds": [
-    {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "**/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "**/*.{css,js,png,jpg,jpeg,webp,svg,ico}",
-      "use": "@vercel/static"
-    }
-  ],
+  "outputDirectory": ".",
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/properties/search",
+      "dest": "/api/properties/search.js"
+    },
+    {
+      "src": "/api/properties/featured",
+      "dest": "/api/properties/featured.js"
+    },
+    {
+      "src": "/api/properties/([^/]+)",
+      "dest": "/api/properties/[id].js?id=$1"
+    },
+    {
+      "src": "/api/contact",
+      "dest": "/api/contact/index.js"
+    },
+    {
+      "src": "/api/visits",
+      "dest": "/api/visits/index.js"
+    },
+    {
+      "src": "/api/chat",
+      "dest": "/api/chat/index.js"
+    },
+    {
+      "src": "/api",
       "dest": "/api/index.js"
     },
     {
@@ -42,7 +56,7 @@
     }
   ],
   "functions": {
-    "api/index.js": {
+    "api/**/*.js": {
       "maxDuration": 30
     }
   },
