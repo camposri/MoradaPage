@@ -1,9 +1,0 @@
-{
-  "buildDate": "2025-08-19T00:02:19.602Z",
-  "version": "1.0.0",
-  "environment": "production",
-  "platform": "vercel",
-  "apiUrl": "http://localhost:3000/api",
-  "frontendUrl": "https://www.valmikejuniorcorretor.com.br",
-  "configuredAt": "2025-08-19T00:02:19.604Z"
-}
