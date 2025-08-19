@@ -1,0 +1,20 @@
+{
+  "name": "moradapage",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd backend && npm run dev",
+    "build": "cd backend && npm run build",
+    "start": "cd backend && npm run start",
+    "lint": "cd backend && npm run lint",
+    "install-backend": "cd backend && npm install"
+  },
+  "workspaces": [
+    "backend"
+  ],
+  "description": "MoradaPage - Sistema de Imobiliária",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/camposri/MoradaPage.git"
+  }
+}
