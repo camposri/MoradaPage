@@ -40,6 +40,7 @@ Backend completo para sistema de imobiliária construído com Next.js 14 e Supab
 - Node.js 18+ 
 - npm ou yarn
 - Conta no Supabase
+- Conta na Vercel (para deploy)
 
 ### 2. Clonagem e Instalação
 
@@ -264,13 +265,70 @@ Obtenha o token através do endpoint de login.
 - Sanitização de uploads de arquivos
 - Tokens de autenticação para acesso administrativo
 
-## 🚀 Deploy
+## 🚀 Deploy na Vercel
 
-### Vercel (Recomendado)
+### 1. Preparação do Repositório
 
-1. Conecte seu repositório ao Vercel
-2. Configure as variáveis de ambiente
-3. Deploy automático
+```bash
+# Inicialize o Git (se ainda não foi feito)
+git init
+git add .
+git commit -m "Initial commit"
+
+# Conecte ao repositório remoto (GitHub/GitLab)
+git remote add origin <seu-repositorio-url>
+git push -u origin main
+```
+
+### 2. Deploy na Vercel
+
+#### Opção 1: Via Dashboard da Vercel
+1. Acesse [vercel.com](https://vercel.com) e faça login
+2. Clique em "New Project"
+3. Conecte seu repositório GitHub/GitLab
+4. Selecione o projeto MoradaPage
+5. Configure as variáveis de ambiente (veja seção abaixo)
+6. Clique em "Deploy"
+
+#### Opção 2: Via CLI da Vercel
+```bash
+# Instale a CLI da Vercel
+npm i -g vercel
+
+# Faça login
+vercel login
+
+# Deploy do projeto
+vercel
+```
+
+### 3. Configuração de Variáveis de Ambiente na Vercel
+
+No dashboard da Vercel, vá em Settings > Environment Variables e adicione:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=sua_url_do_supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima_supabase
+SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=sua_senha_segura
+NEXTAUTH_SECRET=sua_chave_secreta_nextauth
+NEXTAUTH_URL=https://seu-app.vercel.app
+```
+
+### 4. Configurações Automáticas
+
+O projeto já inclui:
+- ✅ `vercel.json` - Configurações específicas da Vercel
+- ✅ `next.config.ts` - Otimizado para produção
+- ✅ `.env.example` - Template das variáveis de ambiente
+
+### 5. Verificação do Deploy
+
+Após o deploy:
+1. Teste as rotas da API: `https://seu-app.vercel.app/api/properties`
+2. Verifique o funcionamento do upload de imagens
+3. Teste a autenticação administrativa
 
 ### Outras Plataformas
 
